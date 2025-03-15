@@ -1,0 +1,7 @@
+//Template envrc file with minimum requirements
+//Need to set your own values and put into `.envrc`
+
+export AWS_ACCESS_KEY_ID=
+export AWS_SECRET_ACCESS_KEY=
+export AWS_DEFAULT_REGION=
+export GITHUB_TOKEN=
