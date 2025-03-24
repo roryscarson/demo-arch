@@ -3,17 +3,32 @@
 
 **Prerequisites**  
 1. Access to AWS account and CLI (via IAM user access key or OIDC setup)
-2. Terraform installed
+2. Terraform and Python installed
 3. `direnv` installed and configured 
 
 **How to Build and Deploy**  
-Current:
+Terraform:  
+* Navigate to /terraform directory
 * `terraform apply` locally  
+Note that this will not work out of the box. You need to modify the backend to use an existing bucket in your own infrastructure, or switch it to use local state instead. Also bucket names are globally unique and would need to be changed in `bucket.tf`
 
-**Future**  
+Terraform Future  
 * (1.0)Setup ruleset enforcement on `main`
 * (1.1)Setup `dev` PR to `main` to autoapply Terraform
 
+Agent-Script:  
+* Navigate to /deploy-agents directory  
+* `python3 -m venv .venv`
+* `source .venv/bin/activate`
+* `python3 get-instances-to-update.py`  
+Note that this will return no results unless you happen to have a bunch of EC2 instances in your account with the following tag `{"Key": "HasSecurityAgent", "Value": "FALSE"}`. The script uses Ansible but the run command that would deploy the agent is commented out(since there are no actual instances setup)
+
+
+**Alerting**  
+Check alerts.md for more detail
+1. S3 bucket becomes public
+2. S3 bucket encryption disabled/removed
+3. S3 bucket policy modifed
 
 **Issues**
 1. IP Range allocation in given arch diagram is impossible. AWS only allows VPCs a maximum `/16` which maps to `10.0.0.0 - 10.0.255.255`. There's no way for the private subnet to have the requested IP range and still be within the same VPC. 
