@@ -1,0 +1,13 @@
+- hosts: ec2_instances
+  become: true
+  vars_files:
+    - vars.yml
+  tasks:
+    - name: Download agent install script
+      get_url:
+        url: "{{ agent_download_url }}"
+        dest: /tmp/install.sh
+        mode: '0755'
+
+    - name: Install agent
+      shell: "/tmp/install.sh --token {{ agent_install_token }}"
