@@ -5,7 +5,6 @@ resource "aws_lb" "main_lb" {
   security_groups = [
     aws_security_group.internet_to_alb.id,
     aws_security_group.internet_to_k8s.id,
-    aws_security_group.public_to_private.id
   ]
   subnets = [
     aws_subnet.public1-euw1a.id,
