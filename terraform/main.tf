@@ -13,11 +13,11 @@ resource "aws_lb" "main_lb" {
     aws_subnet.public3-euw1c.id
   ]
 
-  //  enable_deletion_protection = true
+    enable_deletion_protection = true
 
-  //  access_logs {
-  //   bucket  = aws_s3_bucket.lb_logs.id
-  //   prefix  = "demo_arch_lb"
-  //   enabled = true
-  //  }
+    access_logs {
+     bucket  = aws_s3_bucket.secure_bucket.id
+     prefix  = "demo_arch_lb"
+     enabled = true
+    }
 }
