@@ -63,13 +63,13 @@ resource "aws_vpc_security_group_egress_rule" "allow_http_k8s" {
 }
 
 //Security group - C
-resource "aws_security_group" "public_to_private" {
-  name        = "public_to_private"
+resource "aws_security_group" "rds_private" {
+  name        = "rds_private"
   description = "Allow access to private subnet from public ones"
   vpc_id      = aws_vpc.main.id
 
   tags = {
-    Name = "public_to_private"
+    Name = "rds_private"
   }
 }
 
@@ -83,28 +83,28 @@ resource "aws_db_subnet_group" "rds_subnet_groups" {
   }
 }
 resource "aws_vpc_security_group_ingress_rule" "private_rds" {
-  security_group_id = aws_security_group.public_to_private.id
+  security_group_id = aws_security_group.rds_private.id
   cidr_ipv4         = "10.0.0.0/24"
   from_port         = 3306
   ip_protocol       = "tcp"
   to_port           = 3306
 }
 resource "aws_vpc_security_group_egress_rule" "private_rds" {
-  security_group_id = aws_security_group.public_to_private.id
+  security_group_id = aws_security_group.rds_private.id
   cidr_ipv4         = aws_subnet.private1-euw1a.cidr_block
   from_port         = 3306
   ip_protocol       = "tcp"
   to_port           = 3306
 }
 resource "aws_vpc_security_group_ingress_rule" "private_http" {
-  security_group_id = aws_security_group.public_to_private.id
+  security_group_id = aws_security_group.rds_private.id
   cidr_ipv4         = "10.0.0.0/24"
   from_port         = 80
   ip_protocol       = "tcp"
   to_port           = 80
 }
 resource "aws_vpc_security_group_egress_rule" "private_http" {
-  security_group_id = aws_security_group.public_to_private.id
+  security_group_id = aws_security_group.rds_private.id
   cidr_ipv4         = aws_subnet.private1-euw1a.cidr_block
   from_port         = 80
   ip_protocol       = "tcp"

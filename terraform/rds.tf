@@ -15,13 +15,12 @@ resource "aws_db_instance" "demo-arch" {
   password             = "changelater"
   db_subnet_group_name = aws_db_subnet_group.rds_subnet_groups.name
   vpc_security_group_ids = [
-    aws_security_group.private_rds.id,
+    aws_security_group.rds_private.id,
   ]
 
   ## No Interruption Tunable
   monitoring_interval                 = 60 # Enhanced monitoring
-  //need to create monitoring role
-  monitoring_role_arn                 = data.aws_iam_role.monitoring_role.arn
+  monitoring_role_arn                 = data.aws_iam_role.rds_monitoring_role.arn
   iam_database_authentication_enabled = true
   skip_final_snapshot                 = true
   performance_insights_enabled        = true
@@ -38,6 +37,10 @@ resource "aws_db_instance" "demo-arch" {
   storage_encrypted          = true
 }
 
+//need to actually create monitoring role
+data "aws_iam_role" "rds_monitoring_role" {
+  name = "rds-monitoring-role"
+}
 output "rds_endpoint" {
   description = "The endpoint of the RDS instance"
   value = aws_db_instance.demo-arch.endpoint
