@@ -72,6 +72,16 @@ resource "aws_security_group" "public_to_private" {
     Name = "public_to_private"
   }
 }
+
+resource "aws_db_subnet_group" "rds_subnet_groups" {
+  name       = "rds_subnets"
+  subnet_ids = [
+    aws_subnet.private1-euw1a.id
+    ]
+  tags = {
+    Name = "rds_subnets"
+  }
+}
 resource "aws_vpc_security_group_ingress_rule" "private_rds" {
   security_group_id = aws_security_group.public_to_private.id
   cidr_ipv4         = "10.0.0.0/24"
