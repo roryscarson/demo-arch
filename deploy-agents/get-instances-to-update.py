@@ -32,7 +32,7 @@ def write_inventory(hosts):
             f.write(f"{ip} ansible_user=ec2-user ansible_ssh_private_key_file={SSH_KEY}\n")
 
 def run_ansible():
-    subprocess.run(["ansible-playbook", "-i", "inventory.ini", "deploy_agent.yml"])
+    subprocess.run(["ansible-playbook", "-i", "inventory.ini", "deploy-agent.yml"])
 
 if __name__ == "__main__":
     hosts = get_ec2_instances()
